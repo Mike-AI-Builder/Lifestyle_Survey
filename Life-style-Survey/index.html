@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生活型態評估表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .shadow-xl {
+                box-shadow: none !important;
+            }
+            .rounded-2xl {
+                border-radius: 0 !important;
+            }
+            .border {
+                border-color: #e2e8f0 !important;
+            }
+        }
+
+        .symptom-card:hover {
+            border-color: #0d9488;
+        }
+
+        .custom-checkbox:checked + div {
+            background-color: #0d9488;
+            border-color: #0d9488;
+        }
+
+        .custom-checkbox:checked + div svg {
+            display: block;
+        }
+
+        /* 自定義捲軸 */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+        
+        <!-- 表頭 -->
+        <div class="bg-gradient-to-r from-teal-600 to-emerald-700 p-8 text-white">
+            <h1 class="text-3xl font-bold text-center mb-2">生活型態評估表</h1>
+            <p class="text-teal-100 text-center text-sm">請詳實填寫，協助我們更了解您的身體狀況</p>
+        </div>
+
+        <div class="p-6 space-y-8">
+            
+            <!-- 基本資料 -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">姓名</label>
+                    <input type="text" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition bg-white" placeholder="請輸入姓名">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">年紀</label>
+                    <input type="number" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition bg-white" placeholder="年齡">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">身高 (cm)</label>
+                    <input type="number" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition bg-white" placeholder="公分">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">日期</label>
+                    <input type="date" id="current-date" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition bg-white">
+                </div>
+            </section>
+
+            <!-- 身體數值 -->
+            <section>
+                <div class="flex items-center gap-2 mb-4 text-slate-800 border-l-4 border-teal-600 pl-3">
+                    <i data-lucide="activity" class="w-6 h-6 text-teal-600"></i>
+                    <h2 class="text-xl font-bold">身體組成數值</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">體重 (kg)</label>
+                        <input type="number" id="input-weight" step="0.1" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">體脂 (%)</label>
+                        <input type="number" step="0.1" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">BMI</label>
+                        <input type="number" step="0.1" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">骨骼肌 (kg)</label>
+                        <input type="number" step="0.1" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">基礎代謝</label>
+                        <input type="number" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">身體年齡</label>
+                        <input type="number" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                    <div class="space-y-1 text-center">
+                        <label class="text-xs font-medium text-slate-500 block truncate">內臟脂肪</label>
+                        <input type="number" class="w-full px-2 py-2 text-center rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 outline-none transition">
+                    </div>
+                </div>
+                
+                <!-- 蛋白質計算顯示 -->
+                <div class="mt-4 p-4 bg-teal-50 rounded-xl border border-teal-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-center gap-2 text-teal-800 font-semibold text-sm sm:text-base">
+                        <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shadow-sm shrink-0">P</div>
+                        蛋白質需要量 / 每日 = 體重 × 1.2 ~ 1.6
+                    </div>
+                    <div class="text-teal-900 font-bold text-lg bg-white px-6 py-2 rounded-full shadow-sm border border-teal-200">
+                        建議攝取：<span id="protein-range">0.0 g ~ 0.0 g</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 飲食生活評估 -->
+            <section>
+                <div class="flex items-center gap-2 mb-4 text-slate-800 border-l-4 border-orange-500 pl-3">
+                    <i data-lucide="utensils" class="w-6 h-6 text-orange-500"></i>
+                    <h2 class="text-xl font-bold">生活飲食評估</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 block">早餐</label>
+                        <textarea rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 outline-none transition resize-none text-sm" placeholder="請輸入餐點與份量..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 block">午餐</label>
+                        <textarea rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 outline-none transition resize-none text-sm" placeholder="請輸入餐點與份量..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 block">晚餐</label>
+                        <textarea rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 outline-none transition resize-none text-sm" placeholder="請輸入餐點與份量..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-600 block">其它 / 飲水</label>
+                        <textarea rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 outline-none transition resize-none text-sm" placeholder="飲水量或點心..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 症狀勾選 (JavaScript 動態生成) -->
+            <section>
+                <div class="flex items-center gap-2 mb-6 text-slate-800 border-l-4 border-emerald-600 pl-3">
+                    <i data-lucide="plus-circle" class="w-6 h-6 text-emerald-600"></i>
+                    <h2 class="text-xl font-bold">身體症狀勾選</h2>
+                </div>
+                <div id="symptoms-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 症狀卡片將由 JS 生成 -->
+                </div>
+            </section>
+
+            <!-- 頁尾簽名與操作 -->
+            <div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                    <label class="text-lg font-bold text-slate-700 whitespace-nowrap">學員簽名：</label>
+                    <input type="text" placeholder="請輸入姓名" class="flex-grow md:w-64 px-4 py-2 border-b-2 border-slate-300 focus:border-teal-600 outline-none transition font-medium text-lg text-teal-700">
+                </div>
+                
+                <div class="flex gap-4 w-full md:w-auto no-print">
+                    <button onclick="window.print()" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition shadow-sm border border-slate-200">
+                        <i data-lucide="printer" class="w-5 h-5"></i>
+                        列印評估表
+                    </button>
+                    <button onclick="showNotification()" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold transition shadow-lg shadow-teal-100">
+                        <i data-lucide="save" class="w-5 h-5"></i>
+                        儲存評估
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- 底部免責聲明 -->
+    <div class="mt-8 text-center text-slate-400 text-sm max-w-2xl mx-auto space-y-1">
+        <p>此評估表僅供健康管理與生活習慣優化參考，不具任何醫療診斷、預防或治療疾病之效力。</p>
+        <p>如有身體不適，請務必諮詢專業醫療人員。</p>
+    </div>
+
+    <!-- 通知元件 -->
+    <div id="notification" class="fixed top-10 left-1/2 -translate-x-1/2 bg-teal-600 text-white px-8 py-4 rounded-2xl shadow-2xl z-50 transition-all transform scale-0 opacity-0 flex items-center gap-3 pointer-events-none">
+        <span>✅ 評估資料已暫存成功！</span>
+    </div>
+
+    <script>
+        // 1. 初始化日期
+        document.getElementById('current-date').value = new Date().toISOString().split('T')[0];
+
+        // 2. 蛋白質計算邏輯
+        const weightInput = document.getElementById('input-weight');
+        const proteinDisplay = document.getElementById('protein-range');
+
+        weightInput.addEventListener('input', () => {
+            const w = parseFloat(weightInput.value);
+            if (!isNaN(w) && w > 0) {
+                proteinDisplay.innerText = `${(w * 1.2).toFixed(1)} g ~ ${(w * 1.6).toFixed(1)} g`;
+            } else {
+                proteinDisplay.innerText = `0.0 g ~ 0.0 g`;
+            }
+        });
+
+        // 3. 症狀分類數據 (包含自定義圖標處理)
+        const categories = [
+            { id: 'eye', title: '眼、耳、鼻', icon: 'eye', options: ['乾眼', '夜盲', '眼睛酸澀', '眼白偏黃', '眼中有血絲', '鼻過敏', '鼻竇炎', '紅糟鼻', '耳鳴'] },
+            { id: 'brain', title: '腦', icon: 'brain', options: ['失眠', '淺眠多夢', '易生氣', '記憶力差', '白頭髮', '掉髮', '頭皮屑', '偏頭痛'] },
+            { id: 'oral', title: '口腔', icon: 'coffee', options: ['牙齦出血', '口角炎', '重口味', '地圖舌', '口臭重', '口乾舌燥', '牙口不好', '舌苔肥'] },
+            { id: 'upper', title: '上消化道', icon: 'activity', options: ['胃脹氣', '胃食道逆流', '胃潰瘍、出血', '胃痛', '消化不良', '沒有食慾', '十二指腸'] },
+            { id: 'lower', title: '下消化道', icon: 'wind', options: ['糞便黏馬桶', '易腹瀉', '痔瘡', '腸脹氣'] },
+            { id: 'urinary', title: '泌尿', icon: 'droplet', options: ['頻尿', '尿道發炎', '水腫', '尿酸高'] },
+            { id: 'joints', title: '關節', icon: 'accessibility', options: ['腰酸背痛', '膝關節', '五十肩', '類風濕性關節炎', '骨質疏鬆'] },
+            { id: 'skin', title: '皮膚', icon: 'sparkles', options: ['毛囊角化症', '皮膚過敏', '痘久', '痤瘡', '異位性皮膚炎', '乾癢', '褐色斑美', '肝斑', '膚色暗紅'] },
+            { id: 'heart', title: '心血管', icon: 'heart', options: ['手腳冰冷', '靜脈曲張', '貧血', '心律不整', '胸悶', '爬樓梯喘', '血壓高', '血脂高', '易心悸'] },
+            { id: 'other', title: '其它', icon: 'plus-circle', options: ['易感冒', '經期', '更年期', '經痛', '指甲軟易斷'] }
+        ];
+
+        const container = document.getElementById('symptoms-container');
+
+        categories.forEach(cat => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col hover:border-teal-300 transition-colors symptom-card';
+            
+            let optionsHtml = '';
+            cat.options.forEach(opt => {
+                optionsHtml += `
+                    <label class="flex items-center gap-2 p-2 rounded-md cursor-pointer transition text-xs hover:bg-slate-50 text-slate-600 border border-transparent symptom-item">
+                        <input type="checkbox" class="hidden custom-checkbox" onchange="toggleItemStyle(this)">
+                        <div class="w-4 h-4 rounded flex items-center justify-center border border-slate-300 bg-white shrink-0 checkbox-box transition-colors">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full hidden"></div>
+                        </div>
+                        <span class="truncate">${opt}</span>
+                    </label>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="${cat.icon}" class="w-5 h-5 text-teal-600"></i>
+                        <span class="font-bold text-slate-700">${cat.title}</span>
+                    </div>
+                </div>
+                <div class="p-4 grid grid-cols-2 gap-2 flex-grow">
+                    ${optionsHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // 4. UI 互動函數
+        function toggleItemStyle(checkbox) {
+            const label = checkbox.closest('.symptom-item');
+            const box = label.querySelector('.checkbox-box');
+            const dot = box.querySelector('div');
+
+            if (checkbox.checked) {
+                label.classList.add('bg-teal-50', 'text-teal-700', 'border-teal-100');
+                box.classList.add('bg-teal-600', 'border-teal-600');
+                dot.classList.remove('hidden');
+            } else {
+                label.classList.remove('bg-teal-50', 'text-teal-700', 'border-teal-100');
+                box.classList.remove('bg-teal-600', 'border-teal-600');
+                dot.classList.add('hidden');
+            }
+        }
+
+        function showNotification() {
+            const note = document.getElementById('notification');
+            note.classList.remove('scale-0', 'opacity-0');
+            note.classList.add('scale-100', 'opacity-100');
+            
+            setTimeout(() => {
+                note.classList.remove('scale-100', 'opacity-100');
+                note.classList.add('scale-0', 'opacity-0');
+            }, 3000);
+        }
+
+        // 初始化圖示
+        lucide.createIcons();
+    </script>
+</body>
+</html>
